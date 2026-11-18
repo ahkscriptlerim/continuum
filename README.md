@@ -2,8 +2,6 @@
 
 🏎️ Exact Math. Instant Answers. Zero Compromise.
 
----
-
 ![Continuum Interactive Showcase Movie](continuum_banner.jfif)
 
 By **gtaking** **`<ahkscriptlerim>`** 🚀 `2026 I` 📅
