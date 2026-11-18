@@ -1,0 +1,130 @@
+[package]
+name        = "continuum"
+version     = "1.0.0"
+edition     = "2024"
+authors     = ["gtaking <ahkscriptlerim>"]
+description = "Continuum — Exact Arbitrary-Precision, Linear Algebra & Symbolic Engine"
+license     = "Proprietary"
+default-run = "Continuum"
+
+[package.metadata.commercial]
+display_name    = "Continuum"
+author          = "gtaking"
+company_name    = "ahkscriptlerim"
+requires_ffmpeg = false
+
+[[bin]]
+name = "Continuum"
+path = "src/main.rs"
+
+[[bin]]
+name = "calc-diag"
+path = "src/bin/diagnostics.rs"
+
+[[bench]]
+name = "baremetal_bench"
+harness = false
+
+[dependencies]
+eframe = { version = "0.29", default-features = true, features = ["default"] }
+egui = "0.29"
+shared_kerning = { path = "../shared code/kerning" }
+
+# Fast hash map and hasher for zero-allocation INI & config change detection
+rustc-hash = "2"
+
+# Parallel multi-threaded work-stealing evaluation across CPU cores
+rayon = "1.10"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Image processing for icons / texture assets
+image = { version = "0.25", default-features = false, features = ["png", "ico"] }
+
+[target.'cfg(target_os = "android")'.dependencies]
+eframe = { version = "0.29", default-features = true, features = ["default", "android-native-activity"] }
+
+# High-performance, lock-free memory allocator across Windows, Linux, macOS & BSD desktops
+[target.'cfg(not(target_os = "android"))'.dependencies]
+mimalloc = { version = "0.1", default-features = false }
+
+# Windows API bindings (Windows targets only)
+
+[target.'cfg(windows)'.dependencies.windows]
+version = "0.62"
+features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    "Win32_Graphics_Dxgi",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Threading",
+    "Win32_UI_HiDpi",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Controls",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_System_DataExchange",
+    "Win32_System_Memory",
+    "Win32_System_SystemInformation",
+]
+
+[build-dependencies]
+winres = "0.1"
+
+[profile.release]
+opt-level        = 3           # Full loop/vectorisation/inlining optimisations
+lto              = true        # Full Fat LTO: whole-program global optimization across all crates
+codegen-units    = 1           # Single CGU -> maximum inter-procedural analysis
+panic            = "abort"     # No unwind machinery; smaller binary, faster cold paths
+strip            = true        # Full symbol, symbol table, and debuginfo stripping
+debug            = false       # Zero debuginfo emitted
+debug-assertions = false       # Zero debug assertions on hot paths
+overflow-checks  = false       # Disable overflow checks on hot math in release
+incremental      = false       # Non-incremental release builds for optimal code placement
+rpath            = false       # Disallow hardcoded library search paths
+
+[profile.dev]
+opt-level        = 1           # Basic SROA/inlining so debug GUI/DSP stays usable
+overflow-checks  = true        # Catch arithmetic overflow Day 1 in debug/test
+incremental      = true        # Fast iterative local compilation
+debug            = "line-tables-only" # Cuts .pdb size & link time while preserving stack traces
+
+[profile.dev.package."*"]
+opt-level        = 3           # Full speed for codecs/GUI/image/syn deps in debug builds
+debug            = false              # Zero symbol bloat from external dependencies
+
+[profile.dev.build-override]
+opt-level        = 3           # Accelerate proc-macros & build.rs execution
+
+[profile.release-fast]
+inherits         = "release"   # Full -O3 SIMD/AVX2 speed & stripped symbols, 10x-15x faster iterative build (Mode 1/2)
+lto              = false       # Skip whole-program Fat-LTO link bottleneck during daily iteration
+codegen-units    = 16          # Parallel 16-way LLVM backend codegen across all CPU cores
+incremental      = true        # Reuses unchanged crate/module CGUs across edits
+
+[profile.profiling]
+inherits         = "release"   # Exact release codegen + line tables for VTune/WPA/Superluminal
+debug            = "line-tables-only" # Compact line tables for hardware PMC attribution without breaking LTO
+strip            = "none"             # Retain function symbols for call-stack & asm-audit attribution
+
+[profile.bench]
+opt-level        = 3           # True release-identical codegen for RDTSCP/QPC benchmarks
+lto              = true               # Cross-crate Fat LTO matching production release
+codegen-units    = 1                  # Single CGU so benchmark assembly matches production
+debug            = false              # Zero debug section overhead
+strip            = "none"             # Keep symbols for benchmark disassembly inspection
+debug-assertions = false              # Zero debug assertion branches in timed loops
+overflow-checks  = false              # Zero overflow branches in timed SIMD/ALU kernels
+incremental      = false              # Deterministic code alignment across runs
+
+[lints.clippy]
+redundant_clone           = "warn"    # Catch silent heap .clone() churn on owned values
+large_stack_arrays        = "warn"    # Flag multi-MB stack arrays risking _chkstk / 8MB stack overflow
+trivially_copy_pass_by_ref = "warn"    # Pass small Copy types (<= 16B) in x64 registers, not pointers
+box_collection            = "warn"    # Ban Vec<Box<T>> / Box<String> double pointer indirection
+suboptimal_flops          = "warn"    # Flag a * b + c patterns fusible into 1-cycle hardware FMA (mul_add)
+unreadable_literal        = "allow"   # Permit hex bitmasks & Minimax/Granlund constants
+many_single_char_names    = "allow"   # Permit math/SIMD lane coordinates (x, y, u, v, w)
+too_many_arguments        = "allow"   # Permit zero-indirection SoA slice kernel signatures
+cast_lossless             = "allow"   # Permit explicit bare-metal `as` bit-width casts
