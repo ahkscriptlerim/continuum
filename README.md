@@ -54,8 +54,6 @@ Most calculators force an ugly trade-off: standard desktop calculators choke on 
 - **Foldable Compact Deck** — Click `▾ Deck` or `»` to collapse the keypad or Session History into a sleek, minimal desk strip.
 - 💧 **Engineering Droplet:** Bypasses integer layout rounding by shifting glyph quad vertices directly on the GPU mesh; drops to `0.0% CPU / 0.0% GPU` the instant your hands rest.
 
-![Continuum Built-In 119-Case Self-Test & Microsecond Diagnostic Telemetry](assets/continuum_diagnostics.png)
-
 ---
 
 ## ⚡ Real Bare-Metal Benchmarks (Scientifically Honest)
