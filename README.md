@@ -2,7 +2,7 @@
 
 🏎️ Exact Math. Instant Answers. Zero Compromise.
 
-![Continuum Interactive Showcase Movie](continuum_banner.jfif)
+![Continuum Banner](continuum_banner.jfif)
 
 By **gtaking** **`<ahkscriptlerim>`** 🚀 `2026 I` 📅
 
@@ -68,25 +68,17 @@ Measured on hardware using `_mm_lfence()`-serialized `RDTSCP` cycle counters + `
 | 🧪 **Full 119-Case Verification Suite** (Algebra, CAS, Units, Logic, BigNum) | — | **`441.4 µs` total** | `< 3.7 µs` mean per mathematical domain test |
 | 🌙 **Idle Desktop Standby** | `0 cyc/frame` | **`0.0% CPU / 0.0% GPU`** | Event-driven Win32 `WaitMessage` sleep |
 
+![Continuum Obsidian OLED & Big Number Crunching View](assets/continuum_obsidian_bignum.png)
+
 ---
 
 ## 📦 Grab the Binary or Build from Source
 
 ### 🖥️ Clean Native Binaries (Windows x64 & Linux x64)
-- **Windows 10 / 11 (`win\Continuum.exe`, `~5.5 MB`):** Single-file portable executable, Inno Setup installer (`Continuum_v1.0.0_Setup_x64.exe`), and Microsoft Store package (`Continuum_v1.0.0.0_x64_Store.msix`). Per-Monitor V2 HiDPI aware and Authenticode SHA-256 signed.
-- **Linux x86_64 (`linux\Continuum`):** Native ELF64 executable + portable `.tar.gz` archive with X11 & Wayland display backend support.
+- **Windows 10 / 11:** Single-file portable executable (`win\Continuum.exe`, `~5.5 MB`), Inno Setup installer (`Continuum_v1.0.0_Setup_x64.exe`). Per-Monitor V2 HiDPI aware and Authenticode SHA-256 signed.
+- **Linux x86_64:** Native ELF64 executable (`linux\Continuum`). X11 & Wayland display backend support.
 
-### 🛠️ Build via Unified Pipeline (Rust 2024 Edition)
-```powershell
-# Fast iterative build & launch (16-CGU release-fast)
-.\build_pipeline.ps1 testless
-
-# Full verification + Windows & Linux commercial release packaging
-.\build_pipeline.ps1 all
-
-# Cross-compile Linux x86_64 ELF release binary directly
-.\build_pipeline.ps1 linux
-```
+![Continuum](project.jpg)
 
 ---
 
