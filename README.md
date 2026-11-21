@@ -75,11 +75,12 @@ Measured on hardware using `_mm_lfence()`-serialized `RDTSCP` cycle counters + `
 ## 📦 Grab the Binary or Build from Source
 
 ### 🖥️ Clean Native Binaries (Windows x64 & Linux x64)
-- **Windows 10 / 11:** Single-file portable executable (`win\Continuum.exe`, `~5.5 MB`), Inno Setup installer (`Continuum_v1.0.0_Setup_x64.exe`). Per-Monitor V2 HiDPI aware and Authenticode SHA-256 signed.
-- **Linux x86_64:** Native ELF64 executable (`linux\Continuum`). X11 & Wayland display backend support.
+- **Windows 10 / 11:** Single-file portable executable (`release\win\Continuum.exe (~5.1 MB)`), Inno Setup installer (`Continuum_v1.0.0_Setup_x64.exe`). Per-Monitor V2 HiDPI aware and Authenticode SHA-256 signed.
+  Requires [__Microsoft Visual C++ Redistributable__](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) to be installed, if not already present.
+- **Linux x86_64:** Native ELF64 executable (`release\linux\Continuum (~9.4 MB)`). X11 & Wayland display backend support.
 
 ![Continuum](project.jpg)
 
 ---
 
-Engineered with ❤️ by **gtaking** · **`ahkscriptlerim`**
+Built with ❤️ by **gtaking** · **`ahkscriptlerim`**
